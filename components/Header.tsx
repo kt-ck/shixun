@@ -182,7 +182,7 @@ export function MyHeader() {
                 <a href="#" className={classes.link}>
                   <Center inline>
                     <Box component="span" mr={5}>
-                      Features
+                      Menu
                     </Box>
                     <ChevronDown size={16} color={theme.fn.primaryColor()} />
                   </Center>
@@ -191,7 +191,7 @@ export function MyHeader() {
 
               <HoverCard.Dropdown sx={{ overflow: "hidden" }}>
                 <Group position="apart" px="md">
-                  <Text weight={500}>Features</Text>
+                  <Text weight={500}>Menu</Text>
                   <Anchor href="#" size="xs">
                     View all
                   </Anchor>
