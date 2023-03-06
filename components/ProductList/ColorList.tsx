@@ -18,6 +18,7 @@ function ColorList({ colors }: { colors: string[] }) {
           sx={{paddingBottom:"0.4rem",cursor: "pointer", }}
           className={index === selectIndex ? classes.selected : undefined}
           onClick={() => setSelectIndex(index)}
+          key={item}
         >
           <Box
             sx={{
@@ -26,7 +27,6 @@ function ColorList({ colors }: { colors: string[] }) {
               height: "1rem",
               backgroundColor: item,
             }}
-            key={item}
           ></Box>
         </Box>
       ))}
