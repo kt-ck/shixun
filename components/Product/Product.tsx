@@ -16,7 +16,7 @@ function Product({ product }: { product: ProductType }) {
       <Box sx={{ position: "relative" }}>
         <Stack sx={{ width: "50%", gap: 0 }}>
           {product.images.map((item) => (
-            <Box>
+            <Box key={item}>
               <Image src={item} alt="" />
             </Box>
           ))}
