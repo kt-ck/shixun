@@ -1,22 +1,19 @@
 import { createStyles, Box, ScrollArea, Group, Image } from "@mantine/core";
 import { useState, useCallback, useEffect, useRef } from "react";
-function sliderM({ images }: { images: string[] }) {
+function SliderM({ images }: { images: string[] }) {
   const [start, setStart] = useState(0);
   const [index, setIndex] = useState(0);
-  const useStyles = useCallback(
-    createStyles((theme) => ({
-      scrollAreaSize: {
-        width: "100vw",
-        height: "15rem",
-      },
-      imageGallery: {
-        width: `${images.length * 100}vw`,
-        height: "15rem",
-        gap: 0,
-      },
-    })),
-    []
-  );
+  const useStyles = createStyles((theme) => ({
+    scrollAreaSize: {
+      width: "100vw",
+      height: "15rem",
+    },
+    imageGallery: {
+      width: `${images.length * 100}vw`,
+      height: "15rem",
+      gap: 0,
+    },
+  }));
   const { classes, theme } = useStyles();
   const viewport = useRef<HTMLDivElement>(null);
   const onTouchStart = (e: React.TouchEvent) => {
@@ -64,7 +61,7 @@ function sliderM({ images }: { images: string[] }) {
             key={item}
             sx={{ display: "flex", alignItems: "center" }}
           >
-            <Image fit="cover" src={item} key={item} />
+            <Image fit="cover" src={item} alt="" key={item} />
           </Box>
         ))}
       </Group>
@@ -72,4 +69,4 @@ function sliderM({ images }: { images: string[] }) {
   );
 }
 
-export default sliderM;
+export default SliderM;

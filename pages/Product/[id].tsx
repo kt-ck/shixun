@@ -7,7 +7,7 @@ import { ProductType } from "@/type/type";
 export default function Product({ product }: { product: ProductType }) {
   return (
     <>
-      <ProductContainer />
+      <ProductContainer product={product}/>
       <ProductMContainer product={product} />
     </>
   );
@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   const product = {
     pid: "M21769",
     name: "COUSSIN",
-    sku: [{ color: "green", size: "xl", price: "¥32,500" }],
+    sku: [{ color: "green", size: "xl", price: "¥32,500" },{ color: "red", size: "xl", price: "¥42,500" }],
     details: [
       { content: "26 x 20 x 12 厘米", lists: ["羊皮革", "肩带：可拆卸"] },
     ],
