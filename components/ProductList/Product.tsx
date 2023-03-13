@@ -83,12 +83,12 @@ export default function Product({ product }: { product: Product }) {
 
       <Group sx={{ cursor: "pointer" }}>
         <Stack sx={{ paddingTop: "0.4rem" }}>
-          <Text fw={500} fz="lg">
+          <Text fw={400} fz="lg">
             {product.name}
           </Text>
-          <Text>${product.price}</Text>
+          <Text fw={300}>${product.price}</Text>
         </Stack>
-        <Flex gap="md" justify={"center"} sx={{ margin: "auto" }}>
+        <Flex gap="md" justify={"center"} sx={{ marginLeft: "auto" }}>
           <ColorList colors={product.colors} />
         </Flex>
       </Group>

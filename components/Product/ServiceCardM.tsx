@@ -33,10 +33,10 @@ function ServiceCardM({ service }: { service: Service }) {
               alignItems: "center",
             }}
           >
-            {<service.icon size={"2.5rem"} />}
+            {<service.icon strokeWidth={1.25} size={"2.5rem"} />}
           </Box>
           <Box>
-            <Text fz="md">{service.title}</Text>
+            <Text fz="md" fw={500}>{service.title}</Text>
             <Box sx={{ height: "1.3rem" ,textOverflow: "ellipsis",overflow: "hidden" }}>
               <Text fz="sm" c={"gray"}>
                 {service.desc}

@@ -14,6 +14,7 @@ import {
   Divider,
   Image,
   Transition,
+  Title,
 } from "@mantine/core";
 import { ProductType } from "@/type/type";
 import SliderM from "./SliderM";
@@ -46,7 +47,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const services = [
+export const services = [
   {
     title: "支付方式",
     icon: AlignBoxBottomLeft,
@@ -137,21 +138,22 @@ function ProductM({ product }: { product: ProductType }) {
       </Box>
       <Stack className={classes.content} ref={ref}>
         <Flex align={"center"}>
-          <Text size={"sm"} weight={"bolder"}>
+          <Text size={"sm"} fw={300}>
             {product.pid}
           </Text>
           <Box sx={{ marginLeft: "auto" }}>
-            <Bookmark />
+            <Bookmark size={20} strokeWidth={1.25} />
           </Box>
         </Flex>
-        <Box>
-          <Text size={"md"} weight={"bolder"}>
-            {product.name}
-          </Text>
-        </Box>
-        <Box>
-          <Text size={"sm"}>{product.defaultPrice}</Text>
-        </Box>
+
+        <Text size={"md"} fw={400}>
+          {product.name}
+        </Text>
+
+        <Text c={"dimmed"} fw={300} size={"sm"} sx={{ marginTop: "-0.6rem" }}>
+          {product.defaultPrice}
+        </Text>
+
         <Button
           variant="default"
           radius={"xl"}
@@ -160,10 +162,10 @@ function ProductM({ product }: { product: ProductType }) {
           Add to bag
         </Button>
         <Flex align={"center"}>
-          <Text size={"sm"}>
+          <Text size={"sm"} fw={300} c={"dimmed"}>
             Due to a high demand, your product will be shiped in 3 to 10 weeks.
           </Text>
-          <AlertCircle size={23} />
+          <AlertCircle strokeWidth={1.25} size={23} />
         </Flex>
         <Spoiler
           maxHeight={60}
@@ -171,11 +173,14 @@ function ProductM({ product }: { product: ProductType }) {
           hideLabel="Read Less"
           transitionDuration={1000}
         >
-          {product.description}
+          <Text fw={400} c={"dimmed"}>
+            {" "}
+            {product.description}
+          </Text>
         </Spoiler>
-        <Text size={"md"} weight={"bolder"}>
+        <Title order={3} fw={400}>
           Product details
-        </Text>
+        </Title>
         <Spoiler
           maxHeight={60}
           showLabel="Read More"
@@ -184,10 +189,12 @@ function ProductM({ product }: { product: ProductType }) {
         >
           {product.details.map((item, index) => (
             <Box key={index} className={classes.detailBlock}>
-              <Text>{item?.content}</Text>
+              <Text c={"dimmed"}>{item?.content}</Text>
               <List>
                 {item.lists?.map((text) => (
-                  <List.Item key={text}>{text}</List.Item>
+                  <List.Item key={text}>
+                    <Text c={"dimmed"}>{text}</Text>
+                  </List.Item>
                 ))}
               </List>
             </Box>
@@ -201,9 +208,9 @@ function ProductM({ product }: { product: ProductType }) {
             </Accordion.Item>
           ))}
         </Accordion>
-        <Text size={"xl"} weight={"bolder"}>
+        <Title order={3} fw={400}>
           YOU MAY AlSO LIKE
-        </Text>
+        </Title>
         <ScrollArea sx={{ height: "23rem" }}>
           <Flex
             gap="sm"
@@ -214,7 +221,7 @@ function ProductM({ product }: { product: ProductType }) {
             sx={{ height: "20rem" }}
           >
             {product.recommand.map((item) => (
-              <Box key={item.name} sx={{ width: "12rem" }}>
+              <Box key={item.name} sx={{ width: "80vw" }}>
                 <Product product={item} />
               </Box>
             ))}

@@ -62,7 +62,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
       "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
     ],
     description:
-      "本款 Coussin 小号手袋为蓬软羊皮革压印经典 Monogram 图案，与粗链条等金属件共同释放耀目莹泽。系上宽幅织物肩带，解锁肩背和斜挎方式，令简约造型释放潮流格调",
+      "本款 Coussin 小号手袋为蓬软羊皮革压印经典 Monogram 图案，与粗链条等金属件共同释放耀目莹泽。系上宽幅织物肩带，解锁肩背和斜挎方式，令简约造型释放潮流格调,解锁肩背和斜挎方式，令简约造型释放潮流格调",
     tags: [
       { title: "Sustainability", description: "" },
       { title: "Product Care", description: "" },

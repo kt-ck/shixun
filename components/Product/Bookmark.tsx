@@ -13,7 +13,13 @@ const useStyles = createStyles((theme) => ({
     fill: theme.colorScheme === "light" ? "black" : "yellow",
   },
 }));
-function Bookmark() {
+function Bookmark({
+  size,
+  strokeWidth,
+}: {
+  size: number;
+  strokeWidth: number;
+}) {
   const { classes, theme } = useStyles();
   const [bookmarkSelected, setBookmarkSelected] = useState(false);
   const toggleBookmark = () => {
@@ -22,9 +28,17 @@ function Bookmark() {
   return (
     <Box onClick={toggleBookmark}>
       {bookmarkSelected ? (
-        <Spade size={23} className={classes.bookmarkSelected} />
+        <Spade
+          size={size}
+          strokeWidth={strokeWidth}
+          className={classes.bookmarkSelected}
+        />
       ) : (
-        <Spade size={23} className={classes.bookmark} />
+        <Spade
+          size={size}
+          strokeWidth={strokeWidth}
+          className={classes.bookmark}
+        />
       )}
     </Box>
   );
