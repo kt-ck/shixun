@@ -28,6 +28,8 @@ import {
 import Product from "@/components/ProductList/Product";
 import ServiceCardM from "./ServiceCardM";
 import { useRef, useEffect, useState } from "react";
+import { useAppDispatch } from "@/store/hooks";
+import { addProduct } from "@/features/roleFeature/roleFeature";
 // import Image from "next/image";
 
 const useStyles = createStyles((theme) => ({
@@ -71,6 +73,7 @@ function ProductM({ product }: { product: ProductType }) {
   const [showBox, setShowBox] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const galref = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     setY(ref.current?.offsetTop);
     window.addEventListener("scroll", changeZIndex);
@@ -94,6 +97,9 @@ function ProductM({ product }: { product: ProductType }) {
         setShowBox(false);
       }
     }
+  };
+  const addToCart = () => {
+    dispatch(addProduct({ pid: product.pid }));
   };
   return (
     <Box className={classes.container}>
@@ -158,6 +164,7 @@ function ProductM({ product }: { product: ProductType }) {
           variant="default"
           radius={"xl"}
           sx={{ border: "1px solid black" }}
+          onClick={addToCart}
         >
           Add to bag
         </Button>

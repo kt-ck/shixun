@@ -3,6 +3,8 @@ import { Box, Text, Divider, Button, Select } from "@mantine/core";
 import Bookmark from "./Bookmark";
 import { useEffect, useState } from "react";
 import { useStyles } from "./Product";
+import { useAppDispatch } from "@/store/hooks";
+import { addProduct } from "@/features/roleFeature/roleFeature";
 function PricePanel({ product }: { product: ProductType }) {
   const data = product.sku.map((item, index) => ({
     value: String(index),
@@ -11,25 +13,33 @@ function PricePanel({ product }: { product: ProductType }) {
   const [value, setValue] = useState<string | null>("0");
   const [price, setPrice] = useState(product.defaultPrice);
   const { classes, theme } = useStyles();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const i = Number(value);
     if (!isNaN(i)) {
       setPrice(product.sku[i].price);
     }
   }, [value]);
+  const addToCart = () => {
+    dispatch(addProduct({ pid: product.pid }));
+  };
   return (
     <Box sx={{ position: "relative", width: "50%" }}>
       <Box sx={{ position: "absolute", right: "1rem", top: "0" }}>
         <Bookmark size={23} strokeWidth={1.25} />
       </Box>
-      <Text fz="sm" fw={300}>{product.pid}</Text>
+      <Text fz="sm" fw={300}>
+        {product.pid}
+      </Text>
       <Box sx={{ padding: "0.5rem 0 1rem 0" }}>
         <Text fz="md" fw={500}>
           {product.name}
         </Text>
       </Box>
 
-      <Text c={"dimmed"} fw={300}>{price}</Text>
+      <Text c={"dimmed"} fw={300}>
+        {price}
+      </Text>
       <Box sx={{ paddingTop: "2rem" }}>
         <Divider my="sm" />
       </Box>
@@ -48,6 +58,7 @@ function PricePanel({ product }: { product: ProductType }) {
           size={"xl"}
           sx={{ width: "80%", display: "block", margin: "auto" }}
           className={classes.defaultBorderColor}
+          onClick={addToCart}
         >
           Add to bag
         </Button>
