@@ -15,6 +15,7 @@ import {
   Image,
   Transition,
   Title,
+  Select,
 } from "@mantine/core";
 import { ProductType } from "@/type/type";
 import SliderM from "./SliderM";
@@ -73,6 +74,12 @@ function ProductM({ product }: { product: ProductType }) {
   const [showBox, setShowBox] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const galref = useRef<HTMLDivElement>(null);
+  const [price, setPrice] = useState(product.defaultPrice);
+  const data = product.sku.map((item, index) => ({
+    value: String(index),
+    label: `${item.color}/ ${item.size}`,
+  }));
+  const [value, setValue] = useState<string | null>("0");
   const dispatch = useAppDispatch();
   useEffect(() => {
     setY(ref.current?.offsetTop);
@@ -81,7 +88,12 @@ function ProductM({ product }: { product: ProductType }) {
       window.removeEventListener("scroll", changeZIndex);
     };
   }, []);
-
+  useEffect(() => {
+    const i = Number(value);
+    if (!isNaN(i)) {
+      setPrice(product.sku[i].price);
+    }
+  }, [value]);
   const changeZIndex = () => {
     if (galref.current && ref.current && y != undefined) {
       console.log(ref.current.getBoundingClientRect().top, y);
@@ -99,7 +111,20 @@ function ProductM({ product }: { product: ProductType }) {
     }
   };
   const addToCart = () => {
-    dispatch(addProduct({ pid: product.pid }));
+    let i = Number(value)
+    if(!isNaN(i)){
+      dispatch(
+        addProduct({
+          pid: product.pid,
+          image: product.images[0],
+          count: 1,
+          name: product.name,
+          sku: data[Number(i)].label,
+          price,
+        })
+      );
+    }
+    
   };
   return (
     <Box className={classes.container}>
@@ -125,11 +150,12 @@ function ProductM({ product }: { product: ProductType }) {
             >
               <Flex align={"center"} gap={"lg"}>
                 <Image src={product.images[0]} width={"3rem"} height={"3rem"} />
-                <Text>{product.defaultPrice}</Text>
+                <Text>${price}</Text>
                 <Button
                   variant={"default"}
                   radius={"xl"}
                   sx={{ marginLeft: "auto" }}
+                  onClick={addToCart}
                 >
                   Add to bag
                 </Button>
@@ -157,9 +183,15 @@ function ProductM({ product }: { product: ProductType }) {
         </Text>
 
         <Text c={"dimmed"} fw={300} size={"sm"} sx={{ marginTop: "-0.6rem" }}>
-          {product.defaultPrice}
+          ${price}
         </Text>
-
+        <Select
+          value={value}
+          data={data}
+          onChange={setValue}
+          label="Pick one you prefer"
+          placeholder="Pick one that you like"
+        />
         <Button
           variant="default"
           radius={"xl"}
@@ -179,13 +211,14 @@ function ProductM({ product }: { product: ProductType }) {
           showLabel="Read More"
           hideLabel="Read Less"
           transitionDuration={1000}
+          sx={{ marginTop: "1rem" }}
         >
           <Text fw={400} c={"dimmed"}>
             {" "}
             {product.description}
           </Text>
         </Spoiler>
-        <Title order={3} fw={400}>
+        <Title order={3} fw={400} sx={{ marginTop: "2rem" }}>
           Product details
         </Title>
         <Spoiler
@@ -215,7 +248,7 @@ function ProductM({ product }: { product: ProductType }) {
             </Accordion.Item>
           ))}
         </Accordion>
-        <Title order={3} fw={400}>
+        <Title order={3} fw={400} sx={{ marginTop: "2rem" }}>
           YOU MAY AlSO LIKE
         </Title>
         <ScrollArea sx={{ height: "23rem" }}>

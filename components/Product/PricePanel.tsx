@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useStyles } from "./Product";
 import { useAppDispatch } from "@/store/hooks";
 import { addProduct } from "@/features/roleFeature/roleFeature";
+
 function PricePanel({ product }: { product: ProductType }) {
   const data = product.sku.map((item, index) => ({
     value: String(index),
@@ -14,15 +15,28 @@ function PricePanel({ product }: { product: ProductType }) {
   const [price, setPrice] = useState(product.defaultPrice);
   const { classes, theme } = useStyles();
   const dispatch = useAppDispatch();
+  const addToCart = () => {
+    let i = Number(value);
+    if (!isNaN(i)) {
+      dispatch(
+        addProduct({
+          pid: product.pid,
+          image: product.images[0],
+          count: 1,
+          name: product.name,
+          sku: data[Number(i)].label,
+          price,
+        })
+      );
+    }
+  };
   useEffect(() => {
     const i = Number(value);
     if (!isNaN(i)) {
       setPrice(product.sku[i].price);
     }
   }, [value]);
-  const addToCart = () => {
-    dispatch(addProduct({ pid: product.pid }));
-  };
+
   return (
     <Box sx={{ position: "relative", width: "50%" }}>
       <Box sx={{ position: "absolute", right: "1rem", top: "0" }}>
@@ -38,7 +52,7 @@ function PricePanel({ product }: { product: ProductType }) {
       </Box>
 
       <Text c={"dimmed"} fw={300}>
-        {price}
+        ${price}
       </Text>
       <Box sx={{ paddingTop: "2rem" }}>
         <Divider my="sm" />

@@ -53,7 +53,7 @@ const useStyles = createStyles((theme) => ({
 interface Product {
   images: string[];
   name: string;
-  price: string;
+  price: number;
   colors: string[];
 }
 

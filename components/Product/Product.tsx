@@ -18,6 +18,7 @@ import TagCard from "./TagCard";
 import RecommandProduct from "@/components/ProductList/Product";
 import ServiceCard from "./ServiceCard";
 import { services } from "./ProductM";
+import { useState } from "react";
 export const useStyles = createStyles((theme) => ({
   container: {
     [theme.fn.smallerThan("sm")]: {
@@ -56,7 +57,7 @@ function Product({ product }: { product: ProductType }) {
               marginBottom: "5rem",
             }}
           >
-            <PricePanel product={product} />
+            <PricePanel product={product}/>
           </Box>
         </Box>
       </Box>

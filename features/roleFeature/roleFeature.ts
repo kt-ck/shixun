@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@/store/store";
-
+import { Cart } from "@/type/type";
 // Define a type for the slice state
 interface UserInfo {
   role: string;
@@ -8,10 +8,10 @@ interface UserInfo {
   email: string;
   avatar: string;
   isLogIn: boolean;
-  cart: { pid: string }[];
 }
 interface RoleState {
   userInfo: UserInfo;
+  cart: { products: Cart[]};
 }
 
 // Define the initial state using that type
@@ -22,7 +22,10 @@ const initialState: RoleState = {
     email: "",
     avatar: "",
     isLogIn: false,
-    cart: [],
+  },
+
+  cart: {
+    products: [],
   },
 };
 
@@ -37,14 +40,26 @@ export const RoleSlice = createSlice({
     setIsLogIn: (state, action: PayloadAction<boolean>) => {
       state.userInfo.isLogIn = action.payload;
     },
-    addProduct: (state, action: PayloadAction<{ pid: string }>) => {
-      console.log("add")
-      state.userInfo.cart = [...state.userInfo.cart, action.payload];
+    addProduct: (state, action: PayloadAction<Cart>) => {
+      let f = false;
+      state.cart.products.forEach((item, index) => {
+        if (item.pid === action.payload.pid && item.sku === action.payload.sku) {
+          state.cart.products[index].count += 1;
+          f = true;
+        }
+      });
+
+      if (!f) {
+        state.cart.products.push(action.payload);
+      }
     },
+    removeProduct: (state, action:PayloadAction<Cart>) => {
+      state.cart.products =  state.cart.products.filter((item)=>item.pid !== action.payload.pid || item.sku !== action.payload.sku )
+    }
   },
 });
 
-export const { setInfo, setIsLogIn, addProduct } = RoleSlice.actions;
+export const { setInfo, setIsLogIn, addProduct, removeProduct } = RoleSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUserInfo = (state: RootState) => state.role.userInfo;
