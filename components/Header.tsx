@@ -30,6 +30,7 @@ import {
 import { ButtonToggle } from "./DarkMode";
 import Image from "next/image";
 import LoginButton from "./LoginButton";
+import Link from "next/link";
 const useStyles = createStyles((theme) => ({
   link: {
     display: "flex",
@@ -168,9 +169,9 @@ export function MyHeader() {
             spacing={0}
             className={classes.hiddenMobile}
           >
-            <a href="#" className={classes.link}>
+            <Link href="/" className={classes.link}>
               Home
-            </a>
+            </Link>
             <HoverCard
               width={600}
               position="bottom"
@@ -222,12 +223,6 @@ export function MyHeader() {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
-            <a href="#" className={classes.link}>
-              Learn
-            </a>
-            <a href="#" className={classes.link}>
-              Academy
-            </a>
           </Group>
           <Box sx={{ marginLeft: "auto" }}>
             <ButtonToggle />
