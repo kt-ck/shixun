@@ -8,7 +8,7 @@ type Catagory = { href: string; title: string }[];
 interface Product {
   images: string[];
   name: string;
-  price: string;
+  price: number;
   colors: string[];
 }
 
@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps<ProductListProps> = async () => {
             "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
           ],
           name: "Keepall Banddouliere",
-          price: "29100",
+          price: 29100,
           colors: ["black", "green"],
         },
         {
@@ -76,7 +76,7 @@ export const getStaticProps: GetStaticProps<ProductListProps> = async () => {
             "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
           ],
           name: "Keepall Banddouliere1",
-          price: "29100",
+          price: 29100,
           colors: ["black", "green"],
         },
         {
@@ -88,7 +88,7 @@ export const getStaticProps: GetStaticProps<ProductListProps> = async () => {
             "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
           ],
           name: "Keepall Banddouliere2",
-          price: "29100",
+          price: 29100,
           colors: ["black", "green"],
         },
         {
@@ -100,7 +100,7 @@ export const getStaticProps: GetStaticProps<ProductListProps> = async () => {
             "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
           ],
           name: "Keepall Banddouliere3",
-          price: "29100",
+          price: 29100,
           colors: ["black", "green"],
         },
       ],
