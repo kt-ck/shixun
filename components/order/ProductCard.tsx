@@ -24,7 +24,7 @@ function ProductCard({ item }: { item: Cart }) {
   const { classes } = useStyles();
   useEffect(() => {
     dispatcher(setProduct({ ...item, count }));
-  }, [count]);
+  }, [count, dispatcher, item]);
   return (
     <Paper shadow="xs">
       <Flex className={classes.flexbox}>
@@ -44,7 +44,7 @@ function ProductCard({ item }: { item: Cart }) {
             {item.sku.split("/").map((item, index) => {
               if (item) {
                 return (
-                  <Group>
+                  <Group key={item}>
                     <Text tt="capitalize">{sku_label[index]}</Text>
                     <Text tt="capitalize" fw={300} sx={{ marginLeft: "auto" }}>
                       {item}

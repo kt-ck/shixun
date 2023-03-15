@@ -81,19 +81,6 @@ function ProductM({ product }: { product: ProductType }) {
   }));
   const [value, setValue] = useState<string | null>("0");
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    setY(ref.current?.offsetTop);
-    window.addEventListener("scroll", changeZIndex);
-    return () => {
-      window.removeEventListener("scroll", changeZIndex);
-    };
-  }, []);
-  useEffect(() => {
-    const i = Number(value);
-    if (!isNaN(i)) {
-      setPrice(product.sku[i].price);
-    }
-  }, [value]);
   const changeZIndex = () => {
     if (galref.current && ref.current && y != undefined) {
       console.log(ref.current.getBoundingClientRect().top, y);
@@ -110,6 +97,20 @@ function ProductM({ product }: { product: ProductType }) {
       }
     }
   };
+  useEffect(() => {
+    setY(ref.current?.offsetTop);
+    window.addEventListener("scroll", changeZIndex);
+    return () => {
+      window.removeEventListener("scroll", changeZIndex);
+    };
+  }, [changeZIndex]);
+  useEffect(() => {
+    const i = Number(value);
+    if (!isNaN(i)) {
+      setPrice(product.sku[i].price);
+    }
+  }, [value,product.sku]);
+  
   const addToCart = () => {
     let i = Number(value)
     if(!isNaN(i)){

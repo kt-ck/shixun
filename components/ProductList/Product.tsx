@@ -56,7 +56,7 @@ export default function Product({ product }: { product: SimpleProduct }) {
   const router = useRouter()
   const slides = product.images.map((item) => (
     <Carousel.Slide key={item}>
-      <Image src={item} height={220} />
+      <Image src={item} height={220} alt=""/>
     </Carousel.Slide>
   ));
   const data = product.sku.map((item, index) => ({
@@ -70,7 +70,7 @@ export default function Product({ product }: { product: SimpleProduct }) {
     if (!isNaN(i)) {
       setPrice(product.sku[i].price);
     }
-  }, [value]);
+  }, [value,product.sku]);
   return (
     <Card withBorder padding="xl">
       <Card.Section>

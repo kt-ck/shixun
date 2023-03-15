@@ -35,7 +35,7 @@ function PricePanel({ product }: { product: ProductType }) {
     if (!isNaN(i)) {
       setPrice(product.sku[i].price);
     }
-  }, [value]);
+  }, [value, product.sku]);
 
   return (
     <Box sx={{ position: "relative", width: "50%" }}>

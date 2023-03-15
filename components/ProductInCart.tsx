@@ -8,7 +8,7 @@ function ProductInCart({ product }: { product: CartType }) {
   const dispatch = useAppDispatch();
   return (
     <Group sx={{gap: "1rem"}}>
-      <Image src={product.image} width={"3rem"} height={"3rem"} />
+      <Image src={product.image} alt="" width={"3rem"} height={"3rem"} />
       <Box sx={{minWidth: "8rem"}}>
         <Text fw={400}>{product.name}</Text>
         <Text fw={300}>{product.sku}</Text>
