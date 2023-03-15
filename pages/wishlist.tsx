@@ -1,6 +1,8 @@
 import Head from "next/head";
-import { Box } from "@mantine/core";
+import { Box, Select,Text, Group,Title } from "@mantine/core";
+import { useStyles } from "@/styles/wishlist";
 export default function WishList() {
+  const { classes } = useStyles();
   return (
     <>
       <Head>
@@ -9,7 +11,13 @@ export default function WishList() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box>my wishlist</Box>
+      <Box className={classes.container}>
+        <Group>
+            <Title order={2} fw={500}>{`${1}     items`}</Title>
+            <Text sx={{marginLeft: "auto"}}>Sort by</Text>
+            {/* <Select /> */}
+        </Group>
+      </Box>
     </>
   );
 }
