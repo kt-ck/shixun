@@ -19,14 +19,13 @@ export function LoginPanel(props: PaperProps & {submit : Function}) {
   const {submit, ...paperProps} = props;
   const form = useForm({
     initialValues: {
-      email: "",
+      phone: "",
       name: "",
       password: "",
       terms: true,
     },
 
     validate: {
-      email: (val: string) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
       password: (val: string) =>
         val.length <= 6
           ? "Password should include at least 6 characters"
@@ -60,12 +59,11 @@ export function LoginPanel(props: PaperProps & {submit : Function}) {
           <TextInput
             required
             label="Phone"
-            placeholder="hello@mantine.dev"
-            value={form.values.email}
+            placeholder="198..."
+            value={form.values.phone}
             onChange={(event) =>
-              form.setFieldValue("email", event.currentTarget.value)
+              form.setFieldValue("phone", event.currentTarget.value)
             }
-            error={form.errors.email && "Invalid email"}
             radius="md"
           />
 

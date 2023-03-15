@@ -4,7 +4,7 @@ import Bookmark from "./Bookmark";
 import { useEffect, useState } from "react";
 import { useStyles } from "./Product";
 import { useAppDispatch } from "@/store/hooks";
-import { addProduct } from "@/features/roleFeature/roleFeature";
+import { addProduct, addWishlist} from "@/features/roleFeature/roleFeature";
 
 function PricePanel({ product }: { product: ProductType }) {
   const data = product.sku.map((item, index) => ({
@@ -39,7 +39,7 @@ function PricePanel({ product }: { product: ProductType }) {
 
   return (
     <Box sx={{ position: "relative", width: "50%" }}>
-      <Box sx={{ position: "absolute", right: "1rem", top: "0" }}>
+      <Box sx={{ position: "absolute", right: "1rem", top: "0" }} onClick={()=>{dispatch(addWishlist(product))}}>
         <Bookmark size={23} strokeWidth={1.25} />
       </Box>
       <Text fz="sm" fw={300}>

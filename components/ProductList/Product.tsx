@@ -13,7 +13,7 @@ import {
 import { Carousel } from "@mantine/carousel";
 import { SimpleProduct } from "@/type/type";
 import { useState, useEffect } from "react";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 const useStyles = createStyles((theme) => ({
   price: {
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
@@ -53,10 +53,10 @@ const useStyles = createStyles((theme) => ({
 
 export default function Product({ product }: { product: SimpleProduct }) {
   const { classes } = useStyles();
-  const router = useRouter()
+  const router = useRouter();
   const slides = product.images.map((item) => (
     <Carousel.Slide key={item}>
-      <Image src={item} height={220} alt=""/>
+      <Image src={item} height={220} alt="" />
     </Carousel.Slide>
   ));
   const data = product.sku.map((item, index) => ({
@@ -70,7 +70,7 @@ export default function Product({ product }: { product: SimpleProduct }) {
     if (!isNaN(i)) {
       setPrice(product.sku[i].price);
     }
-  }, [value,product.sku]);
+  }, [value, product.sku]);
   return (
     <Card withBorder padding="xl">
       <Card.Section>
@@ -87,7 +87,12 @@ export default function Product({ product }: { product: SimpleProduct }) {
         </Carousel>
       </Card.Section>
 
-      <Group sx={{ cursor: "pointer" }} onClick={()=>router.push("/Product/1")}>
+      <Group
+        sx={{ cursor: "pointer" }}
+        onClick={() => {  
+          router.push("/Product/1");
+        }}
+      >
         <Stack sx={{ paddingTop: "0.4rem" }}>
           <Text fw={400} fz="lg">
             {product.name}
@@ -97,6 +102,7 @@ export default function Product({ product }: { product: SimpleProduct }) {
             data={data}
             onChange={setValue}
             placeholder="Pick one that you like"
+            onClick={(e)=>e.stopPropagation()}
           />
         </Stack>
         <Flex gap="md" justify={"center"} sx={{ marginLeft: "auto" }}>

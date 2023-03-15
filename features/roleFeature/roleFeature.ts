@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@/store/store";
-import { Cart } from "@/type/type";
+import { Cart,SimpleProduct } from "@/type/type";
 // Define a type for the slice state
 interface UserInfo {
   role: string;
@@ -8,10 +8,15 @@ interface UserInfo {
   email: string;
   avatar: string;
   isLogIn: boolean;
+  token: string;
 }
+
 interface RoleState {
   userInfo: UserInfo;
   cart: { products: Cart[] };
+  wishlist: {
+    products: SimpleProduct[]
+  }
 }
 
 // Define the initial state using that type
@@ -22,11 +27,16 @@ const initialState: RoleState = {
     email: "",
     avatar: "",
     isLogIn: false,
+    token: ""
   },
 
   cart: {
     products: [],
   },
+
+  wishlist: {
+    products:[]
+  }
 };
 
 export const RoleSlice = createSlice({
@@ -73,13 +83,29 @@ export const RoleSlice = createSlice({
         return item;
       });
     },
+    addWishlist: (state, action: PayloadAction<SimpleProduct>) => {
+      let flag = true
+      state.wishlist.products.forEach((item)=>{
+        if(item.name === action.payload.name){
+          flag = false
+        }
+      })
+
+      if(flag){
+        state.wishlist.products.push(action.payload)
+      }
+    },
+    setToken:(state, action:PayloadAction<string>)=>{
+      state.userInfo.token = action.payload
+    }
   },
 });
 
-export const { setInfo, setIsLogIn, addProduct, removeProduct, setProduct } =
+export const { setInfo, setIsLogIn, addProduct, removeProduct, setProduct,setToken,addWishlist } =
   RoleSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUserInfo = (state: RootState) => state.role.userInfo;
+export const selectWishList = (state: RootState) => state.role.wishlist;
 
 export default RoleSlice.reducer;

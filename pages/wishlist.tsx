@@ -1,8 +1,18 @@
 import Head from "next/head";
-import { Box, Select,Text, Group,Title } from "@mantine/core";
+import { Box, Select, Text, Group, Title, SimpleGrid } from "@mantine/core";
 import { useStyles } from "@/styles/wishlist";
+import Product from "@/components/ProductList/Product";
+import { selectWishList } from "@/features/roleFeature/roleFeature";
+import { useAppSelector } from "@/store/hooks";
+const data = [
+  { value: "react", label: "React" },
+  { value: "ng", label: "Angular" },
+  { value: "svelte", label: "Svelte" },
+  { value: "vue", label: "Vue" },
+];
 export default function WishList() {
   const { classes } = useStyles();
+  const wishlist = useAppSelector(selectWishList);
   return (
     <>
       <Head>
@@ -13,10 +23,22 @@ export default function WishList() {
       </Head>
       <Box className={classes.container}>
         <Group>
-            <Title order={2} fw={500}>{`${1}     items`}</Title>
-            <Text sx={{marginLeft: "auto"}}>Sort by</Text>
-            {/* <Select /> */}
+          <Title order={2} fw={500}>{`${1}     items`}</Title>
+          <Text sx={{ marginLeft: "auto" }}>Sort by</Text>
+          <Select data={data} placeholder="Pick one" />
         </Group>
+        <SimpleGrid
+          cols={4}
+          breakpoints={[
+            { maxWidth: "62rem", cols: 3 },
+            { maxWidth: "48rem", cols: 2 },
+            { maxWidth: "36rem", cols: 1 },
+          ]}
+        >
+          {wishlist.products.map((item) => (
+            <Product product={item} key={item.name} />
+          ))}
+        </SimpleGrid>
       </Box>
     </>
   );

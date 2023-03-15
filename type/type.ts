@@ -27,4 +27,9 @@ export interface SimpleProduct {
   sku: { color?: string; size?: string; price: number }[];
 }
 
-
+export interface NotificationType {
+  notificationTitle: string;
+  notificationContent: string;
+  notificationType: "error" | "info";
+  notifacationShow: boolean;
+}

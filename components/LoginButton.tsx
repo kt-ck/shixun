@@ -10,8 +10,14 @@ import {
 } from "@mantine/core";
 import { LoginPanel } from "./LoginPanel";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {  CircleDashed } from "tabler-icons-react";
-import { setInfo, setIsLogIn } from "@/features/roleFeature/roleFeature";
+import { CircleDashed } from "tabler-icons-react";
+import {
+  setInfo,
+  setIsLogIn,
+  setToken,
+} from "@/features/roleFeature/roleFeature";
+import { setNotification } from "@/features/layoutFeature/layoutSlice";
+
 function LoginButton({
   btnTitle,
   btnVariant,
@@ -30,23 +36,98 @@ function LoginButton({
   const [opened, handler] = useDisclosure(false);
   const dispatch = useAppDispatch();
   const userinfo = useAppSelector((state) => state.role.userInfo);
-  const submit = async (type: string, data: { email: string }) => {
-    if (type === "register") {
-    } else {
-      const res = await fetch("/api/login", {
+  const submit = async (
+    type: string,
+    data: { phone: string; name: string; password: string; terms: boolean }
+  ) => {
+    console.log(process.env.BaseUrl);
+    if (type === "register" && data.terms) {
+      const res = await fetch(process.env.BaseUrl + "/user/register/check", {
         method: "post",
-        body: JSON.stringify(data),
+        headers:{
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ phoneNumber: data.phone }),
       });
-      const userinfo = await res.json();
-      dispatch(setInfo(userinfo));
+      let res_json = await res.json();
+      console.log(res_json);
+      console.log({
+        phoneNumber: data.phone,
+        username: data.name,
+        password: data.password,
+        role: 1,
+      });
+      if (res_json.status === "0") {
+        const res = await fetch(process.env.BaseUrl + "/user/register", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phoneNumber: data.phone,
+            username: data.name,
+            password: data.password,
+            role: 1,
+          }),
+        });
+        res_json = await res.json();
+        console.log(res_json);
+        if (res_json.status === "1") {
+          console.log("注册成功");
+        } else {
+          dispatch(
+            setNotification({
+              notifacationShow: true,
+              notificationContent: res_json.msg,
+              notificationTitle: "REGISTER ERROR",
+              notificationType: "error",
+            })
+          );
+        }
+      } else {
+        dispatch(
+          setNotification({
+            notifacationShow: true,
+            notificationContent: "your phone exists",
+            notificationTitle: "REGISTER ERROR",
+            notificationType: "error",
+          })
+        );
+      }
+    } else {
+      const res = await fetch(process.env.BaseUrl + "/user/login", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phoneNumber: data.phone,
+          password: data.password,
+        }),
+      });
+      const res_json = await res.json();
+      console.log(res_json)
+      if (res_json.status === "1") {
+        dispatch(setToken(res_json.data.token));
+        window.localStorage.setItem("token", res_json.data.token);
+      } else {
+        dispatch(
+          setNotification({
+            notifacationShow: true,
+            notificationContent: res_json.msg,
+            notificationTitle: "Login ERROR",
+            notificationType: "error",
+          })
+        );
+      }
     }
 
     handler.close();
   };
 
-  const logout = () =>{
-    dispatch(setIsLogIn(false))
-  }
+  const logout = () => {
+    dispatch(setIsLogIn(false));
+  };
   return (
     <>
       <Modal opened={opened} onClose={handler.close} zIndex={1000001}>

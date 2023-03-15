@@ -5,6 +5,7 @@ import LoginButton from "./LoginButton";
 import HeaderOnlyM from "./HeaderOnlyM";
 import { useStyles } from "./HeaderStyle";
 import HeaderOnlyD from "./HeaderOnlyD";
+import Link from "next/link";
 import Cart from "./Cart";
 export function MyHeader() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -19,7 +20,15 @@ export function MyHeader() {
             <Image src="/logo.png" width={105} height={59} alt="logo" />
           </Box>
           <HeaderOnlyD />
-
+          <Link
+            href={"/wishlist"}
+            style={{
+              textDecoration: "none",
+              color: theme.colorScheme === "light" ? "black" : "white",
+            }}
+          >
+            Wishlist
+          </Link>
           <Cart />
           <Group className={classes.hiddenMobile}>
             <LoginButton btnTitle="Log in" btnVariant={undefined} />

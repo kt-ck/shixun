@@ -5,11 +5,13 @@ import {
   } from '@reduxjs/toolkit';
 import testReducer from "@/features/testFeature/testSlice";
 import RoleReducer from "@/features/roleFeature/roleFeature";
+import layoutSlice from '@/features/layoutFeature/layoutSlice';
 export const store = configureStore({
   reducer: {
     // reference reducers here
     test: testReducer,
-    role: RoleReducer
+    role: RoleReducer,
+    layout: layoutSlice,
   }
 })
 
