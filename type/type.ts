@@ -8,19 +8,23 @@ export type ProductType = {
   tags: { title: string; description: string }[];
   services: { title: string; icon: string; desc: string }[];
   defaultPrice: number;
-  recommand: {
-    images: string[];
-    name: string;
-    price: number;
-    colors: string[];
-  }[];
+  recommand: SimpleProduct[];
 };
 
-export interface  Cart {
+export interface Cart {
   pid: string;
   image: string;
   count: number;
   name: string;
   price: number;
-  sku: string
+  sku: string;
 }
+
+export interface SimpleProduct {
+  images: string[];
+  name: string;
+  defaultPrice: number;
+  sku: { color?: string; size?: string; price: number }[];
+}
+
+

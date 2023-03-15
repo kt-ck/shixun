@@ -4,16 +4,16 @@ import {
   Card,
   Text,
   Group,
-  Button,
   getStylesRef,
   rem,
   Stack,
-  Box,
   Flex,
+  Select,
 } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
-import ColorList from "./ColorList";
-
+import { SimpleProduct } from "@/type/type";
+import { useState, useEffect } from "react";
+import { useRouter } from 'next/router'
 const useStyles = createStyles((theme) => ({
   price: {
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
@@ -50,21 +50,27 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }));
-interface Product {
-  images: string[];
-  name: string;
-  price: number;
-  colors: string[];
-}
 
-export default function Product({ product }: { product: Product }) {
+export default function Product({ product }: { product: SimpleProduct }) {
   const { classes } = useStyles();
+  const router = useRouter()
   const slides = product.images.map((item) => (
     <Carousel.Slide key={item}>
       <Image src={item} height={220} />
     </Carousel.Slide>
   ));
-
+  const data = product.sku.map((item, index) => ({
+    value: String(index),
+    label: `${item.color}/ ${item.size}`,
+  }));
+  const [value, setValue] = useState<string | null>("0");
+  const [price, setPrice] = useState(product.defaultPrice);
+  useEffect(() => {
+    const i = Number(value);
+    if (!isNaN(i)) {
+      setPrice(product.sku[i].price);
+    }
+  }, [value]);
   return (
     <Card withBorder padding="xl">
       <Card.Section>
@@ -81,15 +87,20 @@ export default function Product({ product }: { product: Product }) {
         </Carousel>
       </Card.Section>
 
-      <Group sx={{ cursor: "pointer" }}>
+      <Group sx={{ cursor: "pointer" }} onClick={()=>router.push("/Product/1")}>
         <Stack sx={{ paddingTop: "0.4rem" }}>
           <Text fw={400} fz="lg">
             {product.name}
           </Text>
-          <Text fw={300}>${product.price}</Text>
+          <Select
+            value={value}
+            data={data}
+            onChange={setValue}
+            placeholder="Pick one that you like"
+          />
         </Stack>
         <Flex gap="md" justify={"center"} sx={{ marginLeft: "auto" }}>
-          <ColorList colors={product.colors} />
+          <Text fw={300}>${price}</Text>
         </Flex>
       </Group>
     </Card>

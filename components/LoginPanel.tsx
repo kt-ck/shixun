@@ -59,7 +59,7 @@ export function LoginPanel(props: PaperProps & {submit : Function}) {
 
           <TextInput
             required
-            label="Email"
+            label="Phone"
             placeholder="hello@mantine.dev"
             value={form.values.email}
             onChange={(event) =>
