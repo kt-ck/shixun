@@ -18,20 +18,19 @@ export default function Home({ posts }: { posts: Post[] }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <>
-        <Stack sx={{ gap: 0 }}>
-          {posts.map((item: Post) => (
-            <IndexMediaShow
-              mediaUrl={item.mediaUrl}
-              height={item.height}
-              type={item.type}
-              text={item.text}
-              btnlist={item.btnlist}
-              key={item.text}
-            />
-          ))}
-        </Stack>
-      </>
+
+      <Stack sx={{ gap: 0 }}>
+        {posts.map((item: Post) => (
+          <IndexMediaShow
+            mediaUrl={item.mediaUrl}
+            height={item.height}
+            type={item.type}
+            text={item.text}
+            btnlist={item.btnlist}
+            key={item.text}
+          />
+        ))}
+      </Stack>
     </>
   );
 }

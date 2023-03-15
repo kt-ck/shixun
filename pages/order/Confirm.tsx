@@ -107,6 +107,7 @@ function Confirm() {
               sx={{
                 borderTop: index === 0 ? "none" : `1px solid ${gray_layout}`,
               }}
+              key={item.title}
             >
               <ServiceCard service={item} index={0} />
             </Box>
