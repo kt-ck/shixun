@@ -73,4 +73,13 @@ export const useStyles = createStyles((theme) => ({
     },
     cursor: "pointer",
   },
+  categoryBtn:{
+    width: "100%",
+    padding: "0.2rem 3rem",
+    fontSize: "1.5rem",
+    fontWeight: 400,
+    cursor: "pointer",
+    display:"flex"
+  }
+
 }));

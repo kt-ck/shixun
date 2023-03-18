@@ -1,7 +1,9 @@
 import Head from "next/head";
-import { Stack } from "@mantine/core";
+import { Stack,Skeleton } from "@mantine/core";
 import IndexMediaShow from "@/components/IndexMediaShow";
+import { Suspense } from "react";
 import { GetStaticProps } from "next";
+import { SuspenseIndexMediaShow } from "@/components/suspend/SuspendIndexMediaShow";
 interface Post {
   mediaUrl: { des: string; mo: string };
   height: { desh: number; moh: number };
@@ -21,7 +23,8 @@ export default function Home({ posts }: { posts: Post[] }) {
 
       <Stack sx={{ gap: 0 }}>
         {posts.map((item: Post) => (
-          <IndexMediaShow
+          <Suspense fallback={<Skeleton />}>
+            <SuspenseIndexMediaShow
             mediaUrl={item.mediaUrl}
             height={item.height}
             type={item.type}
@@ -29,6 +32,7 @@ export default function Home({ posts }: { posts: Post[] }) {
             btnlist={item.btnlist}
             key={item.text}
           />
+          </Suspense>
         ))}
       </Stack>
     </>

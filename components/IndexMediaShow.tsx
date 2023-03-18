@@ -2,7 +2,6 @@ import React from "react";
 import IndexMediaShowBox from "./IndexMediaShowBox";
 import IndexMediaShowBoxM from "./IndexMediaShowBoxM";
 import Image from "next/image";
-
 import { Box, createStyles, Text, Button } from "@mantine/core";
 import { useEffect } from "react";
 
@@ -88,7 +87,7 @@ function IndexMediaShow({ mediaUrl, type, height, text, btnlist }: DataType) {
           {btnlist.map((item) => (
             <Button
               variant={"outline"}
-              radius={"lg"}
+              radius={"xl"}
               key={item.text}
               styles={(theme) => ({
                 root: {
@@ -101,6 +100,8 @@ function IndexMediaShow({ mediaUrl, type, height, text, btnlist }: DataType) {
                   },
                 },
               })}
+              size="xl"
+    
             >
               {item.text}
             </Button>

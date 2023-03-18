@@ -1,3 +1,5 @@
+import { Category } from "tabler-icons-react";
+
 export type ProductType = {
   pid: string;
   name: string;
@@ -32,4 +34,11 @@ export interface NotificationType {
   notificationContent: string;
   notificationType: "error" | "info";
   notifacationShow: boolean;
+}
+
+export interface CategoryType {
+  categoryId:string;
+  level:number;
+  name:string;
+  parentId:string
 }

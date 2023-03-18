@@ -3,12 +3,10 @@ import type { RootState } from "@/store/store";
 import { Cart,SimpleProduct } from "@/type/type";
 // Define a type for the slice state
 interface UserInfo {
-  role: string;
+  role: number;
   name: string;
-  email: string;
-  avatar: string;
+  phone: string;
   isLogIn: boolean;
-  token: string;
 }
 
 interface RoleState {
@@ -22,12 +20,10 @@ interface RoleState {
 // Define the initial state using that type
 const initialState: RoleState = {
   userInfo: {
-    role: "guest",
+    role: 0,
     name: "",
-    email: "",
-    avatar: "",
+    phone: "",
     isLogIn: false,
-    token: ""
   },
 
   cart: {
@@ -95,13 +91,10 @@ export const RoleSlice = createSlice({
         state.wishlist.products.push(action.payload)
       }
     },
-    setToken:(state, action:PayloadAction<string>)=>{
-      state.userInfo.token = action.payload
-    }
   },
 });
 
-export const { setInfo, setIsLogIn, addProduct, removeProduct, setProduct,setToken,addWishlist } =
+export const { setInfo, setIsLogIn, addProduct, removeProduct, setProduct,addWishlist } =
   RoleSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

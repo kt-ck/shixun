@@ -13,10 +13,9 @@ import {
   Anchor,
   Stack,
 } from "@mantine/core";
-import { SocialButtons } from "./SocialButton/SocilButton";
-export function LoginPanel(props: PaperProps & {submit : Function}) {
+export function LoginPanel(props: PaperProps & { submit: Function }) {
   const [type, toggle] = useToggle(["login", "register"]);
-  const {submit, ...paperProps} = props;
+  const { submit, ...paperProps } = props;
   const form = useForm({
     initialValues: {
       phone: "",
@@ -26,10 +25,14 @@ export function LoginPanel(props: PaperProps & {submit : Function}) {
     },
 
     validate: {
+      phone: (val: string) =>
+        /^1[3456789]\d{9}$/.test(val)
+          ? null
+          : "please input the right phone number",
       password: (val: string) =>
-        val.length <= 6
-          ? "Password should include at least 6 characters"
-          : null,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/.test(val)
+          ? null
+          : "At least 8-16 characters, 1 uppercase letter, 1 lowercase letter and 1 number.",
     },
   });
 
@@ -38,9 +41,6 @@ export function LoginPanel(props: PaperProps & {submit : Function}) {
       <Text size="lg" weight={500}>
         Welcome to VL, {type} with
       </Text>
-      <SocialButtons />
-
-      <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
       <form onSubmit={form.onSubmit(() => submit(type, form.values))}>
         <Stack>
@@ -64,6 +64,7 @@ export function LoginPanel(props: PaperProps & {submit : Function}) {
             onChange={(event) =>
               form.setFieldValue("phone", event.currentTarget.value)
             }
+            error={form.errors.phone && "please input the right phone number"}
             radius="md"
           />
 
@@ -77,7 +78,7 @@ export function LoginPanel(props: PaperProps & {submit : Function}) {
             }
             error={
               form.errors.password &&
-              "Password should include at least 6 characters"
+              "At least 8-16 characters, 1 uppercase letter, 1 lowercase letter and 1 number."
             }
             radius="md"
           />
@@ -105,7 +106,12 @@ export function LoginPanel(props: PaperProps & {submit : Function}) {
               ? "Already have an account? Login"
               : "Don't have an account? Register"}
           </Anchor>
-          <Button type="submit" radius="xl">
+          <Button
+            type="submit"
+            radius="lg"
+            color={"dark"}
+            disabled={!form.values.terms}
+          >
             {upperFirst(type)}
           </Button>
         </Group>

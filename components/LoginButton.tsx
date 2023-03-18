@@ -7,17 +7,16 @@ import {
   HoverCard,
   List,
   ThemeIcon,
+  Box,
+  Text,
 } from "@mantine/core";
 import { LoginPanel } from "./LoginPanel";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { CircleDashed } from "tabler-icons-react";
-import {
-  setInfo,
-  setIsLogIn,
-  setToken,
-} from "@/features/roleFeature/roleFeature";
+import { setInfo, setIsLogIn } from "@/features/roleFeature/roleFeature";
 import { setNotification } from "@/features/layoutFeature/layoutSlice";
-
+import { gray_layout } from "@/type/const";
+import { useRouter } from "next/router";
 function LoginButton({
   btnTitle,
   btnVariant,
@@ -36,16 +35,16 @@ function LoginButton({
   const [opened, handler] = useDisclosure(false);
   const dispatch = useAppDispatch();
   const userinfo = useAppSelector((state) => state.role.userInfo);
+  const router = useRouter();
   const submit = async (
     type: string,
     data: { phone: string; name: string; password: string; terms: boolean }
   ) => {
-    console.log(process.env.BaseUrl);
     if (type === "register" && data.terms) {
-      const res = await fetch(process.env.BaseUrl + "/user/register/check", {
+      const res = await fetch(process.env.Hostname + "/user/register/check", {
         method: "post",
-        headers:{
-          "Content-Type": "application/json"
+        headers: {
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ phoneNumber: data.phone }),
       });
@@ -58,7 +57,7 @@ function LoginButton({
         role: 1,
       });
       if (res_json.status === "0") {
-        const res = await fetch(process.env.BaseUrl + "/user/register", {
+        const res = await fetch(process.env.Hostname + "/user/register", {
           method: "post",
           headers: {
             "Content-Type": "application/json",
@@ -95,7 +94,7 @@ function LoginButton({
         );
       }
     } else {
-      const res = await fetch(process.env.BaseUrl + "/user/login", {
+      const res = await fetch(process.env.Hostname + "/user/login", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -106,10 +105,18 @@ function LoginButton({
         }),
       });
       const res_json = await res.json();
-      console.log(res_json)
+      console.log(res_json);
       if (res_json.status === "1") {
-        dispatch(setToken(res_json.data.token));
+        dispatch(
+          setInfo({
+            role: 1,
+            name: res_json.data.username,
+            phone: res_json.data.phoneNumber,
+            isLogIn: true,
+          })
+        );
         window.localStorage.setItem("token", res_json.data.token);
+        window.localStorage.setItem("username", res_json.data.username);
       } else {
         dispatch(
           setNotification({
@@ -137,39 +144,51 @@ function LoginButton({
         {userinfo.isLogIn ? (
           <HoverCard>
             <HoverCard.Target>
-              <Avatar
-                component="a"
-                href="/acount"
-                target="_blank"
-                radius="xl"
-                src={userinfo.avatar}
-                alt={userinfo.name}
-              />
+              <Box
+                sx={{
+                  width: "2.5rem",
+                  height: "2.5rem",
+                  borderRadius: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: `1px solid ${gray_layout}`,
+                  fontWeight: 500,
+                }}
+              >
+                {userinfo.name[0]}
+              </Box>
             </HoverCard.Target>
             <HoverCard.Dropdown>
               <List spacing="xs" size="sm" listStyleType="none" center>
                 <List.Item
                   icon={
-                    <ThemeIcon color="blue" size={24} radius="xl">
+                    <ThemeIcon color="dark" size={24} radius="xl">
                       <CircleDashed size="1rem" />
                     </ThemeIcon>
                   }
                 >
-                  Submit a pull request once you are done
+                  <Text
+                    fw={500}
+                    fz={"md"}
+                    sx={{
+                      minWidth: "10rem",
+                      padding: "1rem 0",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => router.push("/account")}
+                  >
+                    My Account
+                  </Text>
                 </List.Item>
               </List>
-              <Button
-                variant="gradient"
-                gradient={{ from: "orange", to: "red" }}
-                fullWidth
-                onClick={logout}
-              >
+              <Button color={"dark"} fullWidth onClick={logout}>
                 Log out
               </Button>
             </HoverCard.Dropdown>
           </HoverCard>
         ) : (
-          <Button variant={btnVariant} onClick={handler.open}>
+          <Button variant={btnVariant} color={"dark"} onClick={handler.open}>
             {btnTitle}
           </Button>
         )}

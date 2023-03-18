@@ -7,11 +7,30 @@ import { useStyles } from "./HeaderStyle";
 import HeaderOnlyD from "./HeaderOnlyD";
 import Link from "next/link";
 import Cart from "./Cart";
+import { useAppDispatch } from "@/store/hooks";
+import { useEffect } from "react";
+import { setInfo } from "@/features/roleFeature/roleFeature";
 export function MyHeader() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const { classes, theme } = useStyles();
-
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      const username = window.localStorage.getItem("username");
+      if (username) {
+        dispatch(
+          setInfo({
+            role: 1,
+            name: username,
+            phone: "",
+            isLogIn: true,
+          })
+        );
+      }
+    }
+  }, []);
   return (
     <Box>
       <Header height={80} px="md">

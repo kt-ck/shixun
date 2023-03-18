@@ -24,7 +24,7 @@ function ProductCard({ item }: { item: Cart }) {
   const { classes } = useStyles();
   useEffect(() => {
     dispatcher(setProduct({ ...item, count }));
-  }, [count, dispatcher, item]);
+  }, [count, dispatcher]);
   return (
     <Paper shadow="xs">
       <Flex className={classes.flexbox}>
