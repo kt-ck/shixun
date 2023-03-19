@@ -26,7 +26,7 @@ function Bookmark({
     setBookmarkSelected((bookmarkSelected) => !bookmarkSelected);
   };
   return (
-    <Box onClick={toggleBookmark}>
+    <Box onClick={toggleBookmark} sx={{cursor: "pointer"}}>
       {bookmarkSelected ? (
         <Spade
           size={size}

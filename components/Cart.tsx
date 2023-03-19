@@ -1,22 +1,38 @@
 import React from "react";
-import { useAppSelector } from "@/store/hooks";
 import { Indicator, Menu, Button } from "@mantine/core";
 import { ShoppingCart } from "tabler-icons-react";
 import { useStyles } from "./HeaderStyle";
 import ProductInCart from "./ProductInCart";
 import { useRouter } from "next/router";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { selectCart, setCart } from "@/features/layoutFeature/layoutSlice";
+import { useEffect } from "react";
+import {
+  selectCart as selectCartData,
+  setCartStale,
+  setProduct,
+} from "@/features/roleFeature/roleFeature";
 function Cart() {
-  const products = useAppSelector((state) => state.role.cart.products);
+  const cart = useAppSelector(selectCartData);
+  const opened = useAppSelector(selectCart);
   const { classes, theme } = useStyles();
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
   return (
-    <Menu shadow="md">
+    <Menu
+      shadow="md"
+      opened={opened}
+      onChange={(open) => {
+        dispatch(setCart(open));
+      }}
+    >
       <Menu.Target>
         <Indicator
           inline
-          label={products.length}
+          label={cart.products.length}
           size={16}
-          disabled={products.length === 0}
+          disabled={cart.products.length === 0}
           color="gray"
           withBorder
           className={classes.cartStyle}
@@ -26,8 +42,8 @@ function Cart() {
       </Menu.Target>
 
       <Menu.Dropdown>
-        {products.map((item) => (
-          <Menu.Label key={item.pid}>
+        {cart.products.map((item) => (
+          <Menu.Label key={item.productId}>
             <ProductInCart product={item} />
           </Menu.Label>
         ))}
@@ -37,7 +53,7 @@ function Cart() {
             radius={"md"}
             fullWidth
             onClick={() => router.push("/order/Confirm")}
-            disabled={products.length === 0}
+            disabled={cart.products.length === 0}
           >
             Pay
           </Button>

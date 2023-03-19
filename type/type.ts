@@ -1,32 +1,33 @@
-import { Category } from "tabler-icons-react";
-
 export type ProductType = {
-  pid: string;
+  productId: string;
   name: string;
-  sku: { color?: string; size?: string; price: number }[];
   details: { content?: string; lists?: string[] }[];
   images: string[];
   description: string;
   tags: { title: string; description: string }[];
   services: { title: string; icon: string; desc: string }[];
-  defaultPrice: number;
+  price: number;
   recommand: SimpleProduct[];
+  detail: string;
+  status: number;
+  color: string;
 };
 
 export interface Cart {
-  pid: string;
+  productId: string;
   image: string;
   count: number;
   name: string;
   price: number;
-  sku: string;
+  color: string;
+  isUpload: boolean;
 }
 
 export interface SimpleProduct {
   images: string[];
   name: string;
-  defaultPrice: number;
-  sku: { color?: string; size?: string; price: number }[];
+  price: number;
+  color: string;
 }
 
 export interface NotificationType {
@@ -37,8 +38,8 @@ export interface NotificationType {
 }
 
 export interface CategoryType {
-  categoryId:string;
-  level:number;
-  name:string;
-  parentId:string
+  categoryId: string;
+  level: number;
+  name: string;
+  parentId: string;
 }

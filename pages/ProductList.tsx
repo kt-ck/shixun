@@ -26,11 +26,11 @@ function ProductList({ catagory, products }: ProductListProps) {
         cols={4}
         spacing={0}
         breakpoints={[
-          { maxWidth: "62rem", cols: 3},
-          { maxWidth: "48rem", cols: 2},
-          { maxWidth: "36rem", cols: 1},
+          { maxWidth: "62rem", cols: 3 },
+          { maxWidth: "48rem", cols: 2 },
+          { maxWidth: "36rem", cols: 1 },
         ]}
-        sx={{marginTop: "2rem"}}
+        sx={{ marginTop: "2rem" }}
       >
         {products.map((item) => (
           <Product product={item} key={item.name} />
@@ -60,8 +60,8 @@ export const getStaticProps: GetStaticProps<ProductListProps> = async () => {
             "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
           ],
           name: "Keepall Banddouliere",
-          defaultPrice: 29100,
-          sku: [{color: "black", price: 29100},{color: "green", price: 29150}]
+          price: 29100,
+          color: "green",
         },
         {
           images: [
@@ -72,8 +72,8 @@ export const getStaticProps: GetStaticProps<ProductListProps> = async () => {
             "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
           ],
           name: "Keepall Banddouliere1",
-          defaultPrice: 29100,
-          sku: [{color: "black", price: 29100},{color: "green", price: 29150}]
+          price: 29100,
+          color: "green",
         },
         {
           images: [
@@ -84,8 +84,8 @@ export const getStaticProps: GetStaticProps<ProductListProps> = async () => {
             "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
           ],
           name: "Keepall Banddouliere2",
-          defaultPrice: 29100,
-          sku: [{color: "black", price: 29100},{color: "green", price: 29150}]
+          price: 29100,
+          color: "green",
         },
         {
           images: [
@@ -96,8 +96,8 @@ export const getStaticProps: GetStaticProps<ProductListProps> = async () => {
             "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
           ],
           name: "Keepall Banddouliere3",
-          defaultPrice: 29100,
-          sku: [{color: "black", price: 29100},{color: "green", price: 29150}]
+          price: 29100,
+          color: "green",
         },
       ],
     },

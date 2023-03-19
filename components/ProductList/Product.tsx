@@ -8,7 +8,7 @@ import {
   rem,
   Stack,
   Flex,
-  Select,
+  Box,
 } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { SimpleProduct } from "@/type/type";
@@ -59,18 +59,7 @@ export default function Product({ product }: { product: SimpleProduct }) {
       <Image src={item} height={220} alt="" />
     </Carousel.Slide>
   ));
-  const data = product.sku.map((item, index) => ({
-    value: String(index),
-    label: `${item.color}/ ${item.size}`,
-  }));
-  const [value, setValue] = useState<string | null>("0");
-  const [price, setPrice] = useState(product.defaultPrice);
-  useEffect(() => {
-    const i = Number(value);
-    if (!isNaN(i)) {
-      setPrice(product.sku[i].price);
-    }
-  }, [value, product.sku]);
+
   return (
     <Card withBorder padding="xl">
       <Card.Section>
@@ -89,24 +78,25 @@ export default function Product({ product }: { product: SimpleProduct }) {
 
       <Group
         sx={{ cursor: "pointer" }}
-        onClick={() => {  
-          router.push("/Product/1");
+        onClick={() => {
+          router.push("/Product/M21210");
         }}
       >
         <Stack sx={{ paddingTop: "0.4rem" }}>
           <Text fw={400} fz="lg">
             {product.name}
           </Text>
-          <Select
-            value={value}
-            data={data}
-            onChange={setValue}
-            placeholder="Pick one that you like"
-            onClick={(e)=>e.stopPropagation()}
-          />
+          <Box
+            sx={{
+              width: "1rem",
+              height: "1rem",
+              backgroundColor: product.color,
+              borderRadius: "50%"
+            }}
+          ></Box>
         </Stack>
         <Flex gap="md" justify={"center"} sx={{ marginLeft: "auto" }}>
-          <Text fw={300}>${price}</Text>
+          <Text fw={300}>${product.price}</Text>
         </Flex>
       </Group>
     </Card>

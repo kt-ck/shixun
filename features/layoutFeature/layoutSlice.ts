@@ -3,6 +3,7 @@ import type { RootState } from "@/store/store";
 import { NotificationType } from "@/type/type";
 interface LayoutStateType {
   notification: NotificationType;
+  cartIsOpen: boolean;
 }
 
 const initialState: LayoutStateType = {
@@ -12,6 +13,7 @@ const initialState: LayoutStateType = {
     notificationTitle: "",
     notificationType: "info",
   },
+  cartIsOpen: false,
 };
 
 export const LayoutSlice = createSlice({
@@ -22,10 +24,14 @@ export const LayoutSlice = createSlice({
     setNotification: (state, action: PayloadAction<NotificationType>) => {
       state.notification = action.payload;
     },
+    setCart: (state, action: PayloadAction<boolean>) => {
+      state.cartIsOpen = action.payload;
+    },
   },
 });
 
-export const { setNotification } = LayoutSlice.actions;
+export const { setNotification, setCart } = LayoutSlice.actions;
 export const selectUserInfo = (state: RootState) => state.layout.notification;
+export const selectCart = (state: RootState) => state.layout.cartIsOpen;
 
 export default LayoutSlice.reducer;

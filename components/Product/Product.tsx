@@ -18,7 +18,6 @@ import TagCard from "./TagCard";
 import RecommandProduct from "@/components/ProductList/Product";
 import ServiceCard from "./ServiceCard";
 import { services } from "./ProductM";
-import { useState } from "react";
 export const useStyles = createStyles((theme) => ({
   container: {
     [theme.fn.smallerThan("sm")]: {
@@ -33,7 +32,13 @@ export const useStyles = createStyles((theme) => ({
     margin: "0.3rem 0",
   },
 }));
-function Product({ product }: { product: ProductType }) {
+function Product({
+  product,
+  status,
+}: {
+  product: ProductType;
+  status: number;
+}) {
   const { classes, theme } = useStyles();
   return (
     <Box className={classes.container}>
@@ -57,19 +62,21 @@ function Product({ product }: { product: ProductType }) {
               marginBottom: "5rem",
             }}
           >
-            <PricePanel product={product}/>
+            <PricePanel product={product} status={status}/>
           </Box>
         </Box>
       </Box>
       <Box sx={{ width: "100%", padding: "5rem" }}>
         <Box sx={{ width: "60%" }}>
           <Text c={"dimmed"} sx={{ lineHeight: "2rem" }}>
-            {product.description}
+            {product.detail}
           </Text>
         </Box>
         <Box sx={{ width: "100%", marginTop: "3rem" }}>
           <Box sx={{ width: "60%" }}>
-            <Title order={3} fw={500}>Product details</Title>
+            <Title order={3} fw={500}>
+              Product details
+            </Title>
             <Divider my="sm" />
             <Spoiler
               maxHeight={60}
@@ -96,9 +103,11 @@ function Product({ product }: { product: ProductType }) {
             <TagCard product={product} />
           </Box>
           <Box sx={{ marginTop: "7rem" }}>
-            <Title order={3} fw={500}>YOU MAY ALSO LIKE</Title>
+            <Title order={3} fw={500}>
+              YOU MAY ALSO LIKE
+            </Title>
 
-            <SimpleGrid cols={3} sx={{marginTop: "2rem"}}>
+            <SimpleGrid cols={3} sx={{ marginTop: "2rem" }}>
               {product.recommand.map((item) => (
                 <RecommandProduct product={item} key={item.name} />
               ))}

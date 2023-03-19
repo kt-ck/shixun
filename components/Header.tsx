@@ -9,7 +9,13 @@ import Link from "next/link";
 import Cart from "./Cart";
 import { useAppDispatch } from "@/store/hooks";
 import { useEffect } from "react";
-import { setInfo } from "@/features/roleFeature/roleFeature";
+import {
+  setInfo,
+  addProduct,
+  clearCart,
+  setProducts,
+} from "@/features/roleFeature/roleFeature";
+import { getCartList } from "@/fetchMethod/cart";
 export function MyHeader() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -17,18 +23,42 @@ export function MyHeader() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     const token = window.localStorage.getItem("token");
-    if (token) {
-      const username = window.localStorage.getItem("username");
-      if (username) {
-        dispatch(
-          setInfo({
-            role: 1,
-            name: username,
-            phone: "",
-            isLogIn: true,
-          })
-        );
-      }
+    const username = window.localStorage.getItem("username");
+    if (token && username) {
+      dispatch(
+        setInfo({
+          role: 1,
+          name: username,
+          phone: "",
+          isLogIn: true,
+        })
+      );
+      dispatch(clearCart());
+      getCartList()
+        .then((cartList) => {
+          return cartList.map(
+            (item: {
+              productId: string;
+              images: string[];
+              num: number;
+              name: string;
+              price: number;
+              color: string;
+            }) => ({
+              productId: item.productId,
+              image: process.env.BaseUrl + item.images[0],
+              count: item.num,
+              name: item.name,
+              price: item.price,
+              color: "green",
+              isUpload: true,
+            })
+          );
+        })
+        .then((formatCartList) => {
+          console.log(formatCartList);
+          dispatch(setProducts(formatCartList));
+        });
     }
   }, []);
   return (
@@ -39,13 +69,7 @@ export function MyHeader() {
             <Image src="/logo.png" width={105} height={59} alt="logo" />
           </Box>
           <HeaderOnlyD />
-          <Link
-            href={"/wishlist"}
-            style={{
-              textDecoration: "none",
-              color: theme.colorScheme === "light" ? "black" : "white",
-            }}
-          >
+          <Link href={"/wishlist"} className={classes.wishlist}>
             Wishlist
           </Link>
           <Cart />

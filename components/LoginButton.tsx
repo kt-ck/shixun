@@ -13,10 +13,16 @@ import {
 import { LoginPanel } from "./LoginPanel";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { CircleDashed } from "tabler-icons-react";
-import { setInfo, setIsLogIn } from "@/features/roleFeature/roleFeature";
+import {
+  setInfo,
+  clearAll,
+  addProduct,
+} from "@/features/roleFeature/roleFeature";
 import { setNotification } from "@/features/layoutFeature/layoutSlice";
 import { gray_layout } from "@/type/const";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 function LoginButton({
   btnTitle,
   btnVariant,
@@ -115,6 +121,28 @@ function LoginButton({
             isLogIn: true,
           })
         );
+        res_json.data.cart.cartList.forEach(
+          (item: {
+            productId: string;
+            images: string[];
+            num: number;
+            name: string;
+            price: number;
+            color: string;
+          }) => {
+            dispatch(
+              addProduct({
+                productId: item.productId,
+                image: process.env.BaseUrl + item.images[0],
+                count: item.num,
+                name: item.name,
+                price: item.price,
+                color: "green",
+                isUpload: true,
+              })
+            );
+          }
+        );
         window.localStorage.setItem("token", res_json.data.token);
         window.localStorage.setItem("username", res_json.data.username);
       } else {
@@ -133,7 +161,9 @@ function LoginButton({
   };
 
   const logout = () => {
-    dispatch(setIsLogIn(false));
+    dispatch(clearAll());
+    window.localStorage.setItem("token", "");
+    window.localStorage.setItem("username", "");
   };
   return (
     <>

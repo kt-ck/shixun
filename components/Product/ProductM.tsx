@@ -74,11 +74,7 @@ function ProductM({ product }: { product: ProductType }) {
   const [showBox, setShowBox] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const galref = useRef<HTMLDivElement>(null);
-  const [price, setPrice] = useState(product.defaultPrice);
-  const data = product.sku.map((item, index) => ({
-    value: String(index),
-    label: `${item.color}/ ${item.size}`,
-  }));
+  const [price, setPrice] = useState(product.price);
   const [value, setValue] = useState<string | null>("0");
   const dispatch = useAppDispatch();
   const changeZIndex = () => {
@@ -104,28 +100,22 @@ function ProductM({ product }: { product: ProductType }) {
       window.removeEventListener("scroll", changeZIndex);
     };
   }, [changeZIndex]);
-  useEffect(() => {
-    const i = Number(value);
-    if (!isNaN(i)) {
-      setPrice(product.sku[i].price);
-    }
-  }, [value,product.sku]);
-  
+
   const addToCart = () => {
-    let i = Number(value)
-    if(!isNaN(i)){
+    let i = Number(value);
+    if (!isNaN(i)) {
       dispatch(
         addProduct({
-          pid: product.pid,
+          productId: product.productId,
           image: product.images[0],
           count: 1,
           name: product.name,
-          sku: data[Number(i)].label,
-          price,
+          price: product.price,
+          color: product.color,
+          isUpload: false,
         })
       );
     }
-    
   };
   return (
     <Box className={classes.container}>
@@ -172,7 +162,7 @@ function ProductM({ product }: { product: ProductType }) {
       <Stack className={classes.content} ref={ref}>
         <Flex align={"center"}>
           <Text size={"sm"} fw={300}>
-            {product.pid}
+            {product.productId}
           </Text>
           <Box sx={{ marginLeft: "auto" }}>
             <Bookmark size={20} strokeWidth={1.25} />
@@ -183,16 +173,34 @@ function ProductM({ product }: { product: ProductType }) {
           {product.name}
         </Text>
 
-        <Text c={"dimmed"} fw={300} size={"sm"} sx={{ marginTop: "-0.6rem" }}>
-          ${price}
-        </Text>
-        <Select
-          value={value}
-          data={data}
-          onChange={setValue}
-          label="Pick one you prefer"
-          placeholder="Pick one that you like"
-        />
+        <Group sx={{ marginTop: "-0.5rem" }}>
+          <Text fz={"sm"} c={theme.colors.gray[8]} fw={400}>
+            Color
+          </Text>
+          <Box
+            sx={{
+              marginLeft: "auto",
+              width: "1rem",
+              height: "1rem",
+              backgroundColor: product.color,
+              borderRadius: "50%",
+            }}
+          ></Box>
+        </Group>
+        <Group sx={{ marginTop: "-0.5rem" }}>
+          <Text fz={"sm"} c={theme.colors.gray[8]} fw={400}>
+            Price
+          </Text>
+          <Text
+            fz={"md"}
+            c={theme.colors.gray[8]}
+            fw={400}
+            sx={{ marginLeft: "auto" }}
+          >
+            ${product.price}
+          </Text>
+        </Group>
+
         <Button
           variant="default"
           radius={"xl"}
@@ -216,7 +224,7 @@ function ProductM({ product }: { product: ProductType }) {
         >
           <Text fw={400} c={"dimmed"}>
             {" "}
-            {product.description}
+            {product.detail}
           </Text>
         </Spoiler>
         <Title order={3} fw={400} sx={{ marginTop: "2rem" }}>

@@ -10,7 +10,7 @@ import {
   Flex,
 } from "@mantine/core";
 import { Cart } from "@/type/type";
-import { sku_label } from "@/type/const";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Counter from "./Counter";
 import { gray_layout } from "@/type/const";
@@ -18,12 +18,16 @@ import { Eye, X } from "tabler-icons-react";
 import { useAppDispatch } from "@/store/hooks";
 import { setProduct, removeProduct } from "@/features/roleFeature/roleFeature";
 import { useStyles } from "./styles";
+import { setNotification } from "@/features/layoutFeature/layoutSlice";
+import { delProduct, changeNum } from "@/fetchMethod/cart";
 function ProductCard({ item }: { item: Cart }) {
   const [count, setCount] = useState(item.count);
   const dispatcher = useAppDispatch();
   const { classes } = useStyles();
+  const router = useRouter();
   useEffect(() => {
     dispatcher(setProduct({ ...item, count }));
+    changeNum(item, count, dispatcher);
   }, [count, dispatcher]);
   return (
     <Paper shadow="xs">
@@ -33,7 +37,7 @@ function ProductCard({ item }: { item: Cart }) {
         </Box>
         <Flex className={classes.content}>
           <Box className={classes.contentBlock}>
-            <Text size={"md"}>{item.pid}</Text>
+            <Text size={"md"}>{item.productId}</Text>
             <Title order={3} fw={500}>
               {item.name}
             </Title>
@@ -41,18 +45,19 @@ function ProductCard({ item }: { item: Cart }) {
 
           <Divider />
           <Box className={classes.contentBlock}>
-            {item.sku.split("/").map((item, index) => {
-              if (item) {
-                return (
-                  <Group key={item}>
-                    <Text tt="capitalize">{sku_label[index]}</Text>
-                    <Text tt="capitalize" fw={300} sx={{ marginLeft: "auto" }}>
-                      {item}
-                    </Text>
-                  </Group>
-                );
-              }
-            })}
+            <Group>
+              <Text tt="capitalize">Color</Text>
+
+              <Box
+                sx={{
+                  marginLeft: "auto",
+                  width: "2rem",
+                  height: "2rem",
+                  borderRadius: "50%",
+                  backgroundColor: item.color,
+                }}
+              ></Box>
+            </Group>
           </Box>
 
           <Group sx={{ marginTop: "auto", padding: "2rem" }}>
@@ -74,7 +79,7 @@ function ProductCard({ item }: { item: Cart }) {
                 cursor: "pointer",
               }}
             >
-              <Group>
+              <Group onClick={() => router.push(`/Product/${item.productId}`)}>
                 <Eye size={"1rem"} strokeWidth={1.25} />
                 <Text>View Details</Text>
               </Group>
@@ -87,7 +92,10 @@ function ProductCard({ item }: { item: Cart }) {
                 textAlign: "center",
                 cursor: "pointer",
               }}
-              onClick={() => dispatcher(removeProduct(item))}
+              onClick={() => {
+                dispatcher(removeProduct(item));
+                delProduct(item, dispatcher);
+              }}
             >
               <X size={"1rem"} strokeWidth={1.25} />
               <Text>Remove</Text>

@@ -68,18 +68,21 @@ export const useStyles = createStyles((theme) => ({
     },
   },
   cartStyle: {
-    [theme.fn.smallerThan("sm")]: {
-      marginLeft: "auto",
-    },
     cursor: "pointer",
   },
-  categoryBtn:{
+  categoryBtn: {
     width: "100%",
     padding: "0.2rem 3rem",
     fontSize: "1.5rem",
     fontWeight: 400,
     cursor: "pointer",
-    display:"flex"
-  }
-
+    display: "flex",
+  },
+  wishlist: {
+    textDecoration: "none",
+    color: theme.colorScheme === "light" ? "black" : "white",
+    [theme.fn.smallerThan("sm")]: {
+      marginLeft: "auto",
+    },
+  },
 }));

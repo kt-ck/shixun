@@ -65,12 +65,11 @@ function HeaderOnlyM(props: PropsType) {
           color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
         />
 
-        <Group position="center" grow pb="xl" px="md">
+        <ButtonToggle />
+        <Group position="center">
           <LoginButton btnTitle="Log in" btnVariant={undefined} />
         </Group>
-        <ButtonToggle />
       </ScrollArea>
-      
     </Drawer>
   );
 }
