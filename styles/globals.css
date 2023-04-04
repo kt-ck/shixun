@@ -1,0 +1,12 @@
+a {
+  color: inherit;
+}
+
+.hiddenScroll {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hiddenScroll::-webkit-scrollbar {
+  display: none;
+}
